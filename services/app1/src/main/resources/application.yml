@@ -1,0 +1,64 @@
+spring:
+  profiles:
+    active: []
+  webflux:
+    base-path: /api/alphav1
+  application:
+    name: "Example"
+  codec:
+    max-in-memory-size: 10MB
+  data:
+    mongodb:
+      auto-index-creation: true
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,multipart/form-data
+  forward-headers-strategy: native
+  shutdown: graceful
+
+cors:
+  allowed:
+    credentials: true
+    max-age: 3600
+    origins:
+      - http://localhost:3000
+    methods:
+      - GET
+      - POST
+      - OPTIONS
+      - DELETE
+      - PUT
+      - PATCH
+    headers:
+      - X-Requested-With
+      - Authorization
+      - Origin
+      - Content-Type
+      - User-Agent
+
+basic-auth:
+  username: basicUser1
+  password: mypassword1
+
+security:
+  public-endpoints:
+    - /actuator
+    - /webjars/**
+    - /v3/api-docs/**

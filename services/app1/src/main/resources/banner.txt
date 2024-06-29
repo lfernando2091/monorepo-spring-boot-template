@@ -1,0 +1,2 @@
+Example Project
+:: Spring Boot :: ${spring-boot.formatted-version}

@@ -1,0 +1,15 @@
+name: app1
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - services/app1/**
+      - libs/database/**
+      - .github/workflows/app1-prod-workflow.yml
+
+jobs:
+  run:
+    uses: ./.github/workflows/general-service-workflow.yml
+    with:
+      service: app1
