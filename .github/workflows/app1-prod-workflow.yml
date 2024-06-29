@@ -2,7 +2,7 @@ name: app1
 
 on:
   push:
-    branches: [ main ]
+    branches: [ no-main ] # change to "main"
     paths:
       - services/app1/**
       - libs/database/**
