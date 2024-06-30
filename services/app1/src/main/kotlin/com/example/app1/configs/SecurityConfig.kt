@@ -1,9 +1,8 @@
 package com.example.app1.configs
 
-import org.springframework.security.config.annotation.web.invoke
 import com.example.app1.properties.BasicAuthProps
 import com.example.app1.properties.SecurityProps
-import com.example.app1.utils.Constants.ANY_FILE_EXTENTION
+import com.example.app1.utils.Constants.ANY_FILE_EXTENSION
 import com.example.app1.utils.Constants.ANY_PATH
 import com.example.app1.utils.Constants.GENERIC_ROLE
 import org.springframework.context.annotation.Bean
@@ -44,10 +43,10 @@ class SecurityConfig {
         http: ServerHttpSecurity,
         securityProps: SecurityProps
     ): SecurityWebFilterChain = http
-            .httpBasic { }
-            .formLogin { }
-            .csrf { }
-            .cors { }
+            .httpBasic {  }
+            .formLogin { formLogin -> formLogin.disable() }
+            .csrf { csrf -> csrf.disable() }
+            .cors { cors -> cors.disable() }
             .headers { header ->
                 header.frameOptions(withDefaults())
             }
@@ -56,7 +55,7 @@ class SecurityConfig {
                         *securityProps.publicEndpoints.toTypedArray()
                     ).permitAll()
                     .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                    .pathMatchers(ANY_FILE_EXTENTION).permitAll()
+                    .pathMatchers(ANY_FILE_EXTENSION).permitAll()
                     .pathMatchers(HttpMethod.PUT, ANY_PATH)
                     .hasRole(GENERIC_ROLE)
                     .pathMatchers(HttpMethod.POST, ANY_PATH)

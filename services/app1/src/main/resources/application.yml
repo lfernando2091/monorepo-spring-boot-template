@@ -40,8 +40,8 @@ cors:
     origins:
       - http://localhost:3000
     methods:
-      - GET
       - POST
+      - GET
       - OPTIONS
       - DELETE
       - PUT

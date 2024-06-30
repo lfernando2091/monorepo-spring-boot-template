@@ -7,5 +7,5 @@ object Constants {
 
     const val GENERIC_ROLE = "GEN_ROLE"
     const val ANY_PATH = "/**"
-    const val ANY_FILE_EXTENTION = "/*.*"
+    const val ANY_FILE_EXTENSION = "/*.*"
 }
