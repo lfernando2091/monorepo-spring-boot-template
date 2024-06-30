@@ -1,11 +1,13 @@
 package com.example.app1.routers
 
-import com.example.app1.exception.models.BadRequestException
 import com.example.app1.handlers.HomeHandler
 import com.example.app1.models.HomeDto
 import com.example.app1.models.HomeReq
 import com.example.app1.models.HomeRes
+import com.example.app1.models.IdRes
 import com.example.app1.utils.Constants.EMPTY_PATH
+import com.example.app1.utils.Constants.ID_PATH
+import com.example.app1.utils.Constants.ID_VARIABLE
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.StringToClassMapItem
@@ -141,6 +143,37 @@ class HomeRouter(
                     )
                 ]
             )
+        ),
+        //endregion
+        //region => /example/{id}
+        RouterOperation(
+            path = "/${BASE_API}/${ID_PATH}",
+            method = [RequestMethod.DELETE],
+            operation = Operation(
+                operationId = "op${TAG_API}Delete",
+                tags = [TAG_API],
+                summary = "Deletes operation",
+                description = "Deletes an element created previously",
+                parameters = [
+                    Parameter(
+                        name = ID_VARIABLE,
+                        `in` = ParameterIn.PATH,
+                        description = "Element Id",
+                        required = true
+                    )],
+                responses = [
+                    ApiResponse(
+                        description = "Delete result",
+                        responseCode = "200",
+                        content = [
+                            Content(
+                                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                schema = Schema(implementation = IdRes::class)
+                            )
+                        ]
+                    )
+                ]
+            )
         )
         //endregion
     )
@@ -150,6 +183,7 @@ class HomeRouter(
                 GET(EMPTY_PATH, homeHandler::get)
                 GET("/with-error", homeHandler::getWithError)
                 POST("/with-payload", homeHandler::post)
+                DELETE(ID_PATH, homeHandler::del)
             }
         }
     }

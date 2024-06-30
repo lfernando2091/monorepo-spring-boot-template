@@ -17,3 +17,8 @@ data class HomeRes(
     @JsonProperty("message_input")
     val messageInput: String
 )
+
+data class IdRes(
+    // removed JsonProperty for this property due snake case not required
+    val id: String
+)

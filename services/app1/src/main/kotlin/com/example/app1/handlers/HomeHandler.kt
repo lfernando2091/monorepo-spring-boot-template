@@ -4,6 +4,7 @@ import com.example.app1.exception.models.BadRequestException
 import com.example.app1.models.HomeReq
 import com.example.app1.routers.HomeRouter.Companion.SIMPLE_PARAM
 import com.example.app1.services.HomeService
+import com.example.app1.utils.id
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import org.springframework.stereotype.Component
@@ -40,7 +41,7 @@ class HomeHandler(
         request
             .bodyToFlow(HomeReq::class)
             .map { body ->
-                if(body.messageInput.isEmpty()) {
+                if(body.messageInput.isBlank()) {
                     throw BadRequestException("Required property 'message_input'")
                 }
                 body
@@ -52,6 +53,17 @@ class HomeHandler(
                     .json()
                     .bodyValueAndAwait(
                         homeService.post(body)
+                    )
+            }
+
+    suspend fun del(request: ServerRequest): ServerResponse =
+        request
+            .let {
+                ServerResponse
+                    .ok()
+                    .json()
+                    .bodyValueAndAwait(
+                        homeService.del(request.id)
                     )
             }
 }
