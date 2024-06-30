@@ -6,6 +6,7 @@ import com.example.app1.utils.Constants.ANY_PATH
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.cors.CorsConfiguration
@@ -15,6 +16,9 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 @Configuration
 class AppConfig {
     private val log: Logger = LoggerFactory.getLogger(AppConfig::class.java)
+
+    @Bean
+    fun resources(): WebProperties.Resources = WebProperties.Resources()
 
     @Bean
     fun corsProperties(): CorsProps = CorsProps()

@@ -18,4 +18,12 @@ class HomeHandler(
             .bodyValueAndAwait(
                 homeService.get()
             )
+
+    suspend fun getWithError(request: ServerRequest): ServerResponse =
+        ServerResponse
+            .ok()
+            .json()
+            .bodyValueAndAwait(
+                homeService.getWithError()
+            )
 }

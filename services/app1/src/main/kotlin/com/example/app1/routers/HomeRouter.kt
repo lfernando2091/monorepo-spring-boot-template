@@ -31,7 +31,29 @@ class HomeRouter(
                 description = "Gets $TAG_API",
                 responses = [
                     ApiResponse(
-                        description = "Home result",
+                        description = "$TAG_API result",
+                        responseCode = "200",
+                        content = [
+                            Content(
+                                mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                schema = Schema(implementation = HomeDto::class)
+                            )
+                        ]
+                    )
+                ]
+            )
+        ),
+        RouterOperation(
+            path = "/${BASE_API}/with-error",
+            method = [RequestMethod.GET],
+            operation = Operation(
+                operationId = "op${TAG_API}GetError",
+                tags = [TAG_API],
+                summary = "Gets $TAG_API with Error",
+                description = "This endpoint intentionally generates an exception.",
+                responses = [
+                    ApiResponse(
+                        description = "$TAG_API result",
                         responseCode = "200",
                         content = [
                             Content(
@@ -48,6 +70,7 @@ class HomeRouter(
         "/${BASE_API}".nest {
             accept(MediaType.APPLICATION_JSON).nest{
                 GET(EMPTY_PATH, homeHandler::get)
+                GET("/with-error", homeHandler::getWithError)
             }
         }
     }
