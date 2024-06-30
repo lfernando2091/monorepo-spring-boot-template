@@ -1,11 +1,9 @@
 package com.example.app1.configs
 
-import com.example.app1.properties.BasicAuthProps
 import com.example.app1.properties.CorsProps
 import com.example.app1.utils.Constants.ANY_PATH
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

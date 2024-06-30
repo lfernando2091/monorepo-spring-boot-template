@@ -1,5 +1,6 @@
 package com.example.app1.configs
 
+import org.springframework.security.config.annotation.web.invoke
 import com.example.app1.properties.BasicAuthProps
 import com.example.app1.properties.SecurityProps
 import com.example.app1.utils.Constants.ANY_FILE_EXTENTION
@@ -8,6 +9,7 @@ import com.example.app1.utils.Constants.GENERIC_ROLE
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
@@ -37,30 +39,33 @@ class SecurityConfig {
         return MapReactiveUserDetailsService(user)
     }
 
-    @Bean(value = ["springSecurityFilterChain"])
+    @Bean
     fun springSecurityFilterChain(
         http: ServerHttpSecurity,
         securityProps: SecurityProps
     ): SecurityWebFilterChain = http
-            .httpBasic().and()
-            .formLogin().disable()
-            .csrf().disable()
-            .cors().disable()
-            .headers().frameOptions().disable().and()
-            .authorizeExchange().pathMatchers(
-                *securityProps.publicEndpoints.toTypedArray()
-            ).permitAll()
-            .pathMatchers(HttpMethod.OPTIONS).permitAll()
-            .pathMatchers(ANY_FILE_EXTENTION).permitAll()
-            .pathMatchers(HttpMethod.PUT, ANY_PATH)
-            .hasRole(GENERIC_ROLE)
-            .pathMatchers(HttpMethod.POST, ANY_PATH)
-            .hasRole(GENERIC_ROLE)
-            .pathMatchers(HttpMethod.GET, ANY_PATH)
-            .hasRole(GENERIC_ROLE)
-            .pathMatchers(HttpMethod.DELETE, ANY_PATH)
-            .hasRole(GENERIC_ROLE)
-            .anyExchange().authenticated()
-            .and()
+            .httpBasic { }
+            .formLogin { }
+            .csrf { }
+            .cors { }
+            .headers { header ->
+                header.frameOptions(withDefaults())
+            }
+            .authorizeExchange { exchanges ->
+                exchanges.pathMatchers(
+                        *securityProps.publicEndpoints.toTypedArray()
+                    ).permitAll()
+                    .pathMatchers(HttpMethod.OPTIONS).permitAll()
+                    .pathMatchers(ANY_FILE_EXTENTION).permitAll()
+                    .pathMatchers(HttpMethod.PUT, ANY_PATH)
+                    .hasRole(GENERIC_ROLE)
+                    .pathMatchers(HttpMethod.POST, ANY_PATH)
+                    .hasRole(GENERIC_ROLE)
+                    .pathMatchers(HttpMethod.GET, ANY_PATH)
+                    .hasRole(GENERIC_ROLE)
+                    .pathMatchers(HttpMethod.DELETE, ANY_PATH)
+                    .hasRole(GENERIC_ROLE)
+                    .anyExchange().authenticated()
+            }
             .build()
 }
