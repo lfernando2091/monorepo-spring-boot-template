@@ -2,13 +2,17 @@ package com.example.app1.handlers
 
 import com.example.app1.exception.models.BadRequestException
 import com.example.app1.models.HomeReq
+import com.example.app1.models.HomeValidationReq
+import com.example.app1.models.HomeValidator
 import com.example.app1.routers.HomeRouter.Companion.SIMPLE_PARAM
 import com.example.app1.services.HomeService
 import com.example.app1.utils.id
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import org.springframework.stereotype.Component
+import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.web.reactive.function.server.*
+import java.util.stream.Collectors
 
 @Component
 class HomeHandler(
@@ -54,6 +58,35 @@ class HomeHandler(
                     .bodyValueAndAwait(
                         homeService.post(body)
                     )
+            }
+
+    suspend fun postValidator(request: ServerRequest): ServerResponse =
+        request
+            .bodyToFlow(HomeValidationReq::class)
+            .map { body ->
+                val validator = HomeValidator()
+                val errors = BeanPropertyBindingResult(
+                    body,
+                    HomeValidationReq::class.java.name
+                )
+                validator.validate(body, errors)
+                if(errors.allErrors.isNotEmpty()) {
+                    throw BadRequestException(
+                        "Wrong request",
+                        errors.allErrors
+                            .stream()
+                            .map { it.code }
+                            .collect(Collectors.joining(","))
+                    )
+                }
+                body
+            }
+            .single()
+            .let { body ->
+                ServerResponse
+                    .ok()
+                    .json()
+                    .bodyValueAndAwait("")
             }
 
     suspend fun del(request: ServerRequest): ServerResponse =

@@ -1,10 +1,7 @@
 package com.example.app1.routers
 
 import com.example.app1.handlers.HomeHandler
-import com.example.app1.models.HomeDto
-import com.example.app1.models.HomeReq
-import com.example.app1.models.HomeRes
-import com.example.app1.models.IdRes
+import com.example.app1.models.*
 import com.example.app1.utils.Constants.EMPTY_PATH
 import com.example.app1.utils.Constants.ID_PATH
 import com.example.app1.utils.Constants.ID_VARIABLE
@@ -174,6 +171,31 @@ class HomeRouter(
                     )
                 ]
             )
+        ),
+        //endregion
+        //region => /example/with-payload-validation
+        RouterOperation(
+            path = "/${BASE_API}/with-payload-validation",
+            method = [RequestMethod.POST],
+            operation = Operation(
+                operationId = "op${TAG_API}PostVal",
+                tags = [TAG_API],
+                summary = "Validate payload",
+                description = "The payload will be validated before processing",
+                requestBody = RequestBody(
+                    required = true,
+                    description = "Allowed payload",
+                    content = [
+                        Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = Schema(implementation = HomeValidationReq::class)
+                        )
+                    ]
+                ),
+                responses = [
+
+                ]
+            )
         )
         //endregion
     )
@@ -184,6 +206,7 @@ class HomeRouter(
                 GET("/with-error", homeHandler::getWithError)
                 POST("/with-payload", homeHandler::post)
                 DELETE(ID_PATH, homeHandler::del)
+                POST("/with-payload-validation", homeHandler::postValidator)
             }
         }
     }
