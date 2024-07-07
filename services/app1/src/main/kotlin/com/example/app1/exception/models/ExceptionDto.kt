@@ -19,7 +19,8 @@ abstract class BaseException(
     message: String = INTERNAL_SERVER_ERROR_MSG,
     cause: String = INTERNAL_SERVER_ERROR_CAUSE_MSG,
     status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
-    val errorCode: String = GENERIC_ERROR_CODE
+    val errorCode: String = GENERIC_ERROR_CODE,
+    val errors: List<Any>? = null
 ): ResponseStatusException(status, message, Throwable(cause))
 
 class NotFoundException(
@@ -33,8 +34,9 @@ class BadRequestException(
     message: String = BAD_REQUEST_MSG,
     cause: String = BAD_REQUEST_CAUSE_MSG,
     status: HttpStatus = HttpStatus.BAD_REQUEST,
-    errorCode: String = BAD_REQUEST_ERROR_CODE
-): BaseException(message, cause, status, errorCode)
+    errorCode: String = BAD_REQUEST_ERROR_CODE,
+    errors: List<Any>? = null
+): BaseException(message, cause, status, errorCode, errors)
 
 class ForbiddenRequestException(
     message: String = FORBIDDEN_REQUEST_MSG,

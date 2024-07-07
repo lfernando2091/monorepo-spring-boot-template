@@ -7,6 +7,7 @@ import com.example.app1.models.HomeValidator
 import com.example.app1.routers.HomeRouter.Companion.SIMPLE_PARAM
 import com.example.app1.services.HomeService
 import com.example.app1.utils.id
+import com.example.validation.utils.bodyValidator
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import org.springframework.stereotype.Component
@@ -62,31 +63,13 @@ class HomeHandler(
 
     suspend fun postValidator(request: ServerRequest): ServerResponse =
         request
-            .bodyToFlow(HomeValidationReq::class)
-            .map { body ->
-                val validator = HomeValidator()
-                val errors = BeanPropertyBindingResult(
-                    body,
-                    HomeValidationReq::class.java.name
-                )
-                validator.validate(body, errors)
-                if(errors.allErrors.isNotEmpty()) {
-                    throw BadRequestException(
-                        "Wrong request",
-                        errors.allErrors
-                            .stream()
-                            .map { it.code }
-                            .collect(Collectors.joining(","))
-                    )
-                }
-                body
-            }
+            .bodyValidator(HomeValidationReq::class)
             .single()
             .let { body ->
                 ServerResponse
                     .ok()
                     .json()
-                    .bodyValueAndAwait("")
+                    .bodyValueAndAwait(body)
             }
 
     suspend fun del(request: ServerRequest): ServerResponse =

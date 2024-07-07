@@ -36,8 +36,12 @@ class ExceptionControllerAdvice: DefaultErrorAttributes() {
     private val REQUEST_ID = "request_id"
     private val CODE = "code"
     private val ERROR_CODE = "error_code"
+    private val ERRORS = "errors"
 
-    override fun getErrorAttributes(request: ServerRequest, options: ErrorAttributeOptions?): Map<String, Any?> {
+    override fun getErrorAttributes(
+        request: ServerRequest,
+        options: ErrorAttributeOptions?
+    ): Map<String, Any?> {
         return assembleError(request)
     }
 
@@ -54,7 +58,8 @@ class ExceptionControllerAdvice: DefaultErrorAttributes() {
                     CAUSE to serverException.cause?.message,
                     REQUEST_ID to request.exchange().request.id,
                     ERROR_CODE to serverException.errorCode,
-                    STATUS to errorStatus.value()
+                    STATUS to errorStatus.value(),
+                    ERRORS to serverException.errors
                 )
             }
             else -> {
@@ -70,7 +75,10 @@ class ExceptionControllerAdvice: DefaultErrorAttributes() {
         }
     }
 
-    private fun determineHttpStatus(error: Throwable, responseStatusAnnotation: MergedAnnotation<ResponseStatus>): HttpStatus {
+    private fun determineHttpStatus(
+        error: Throwable,
+        responseStatusAnnotation: MergedAnnotation<ResponseStatus>
+    ): HttpStatus {
         if (error is ResponseStatusException) {
             val httpStatus = HttpStatus.resolve(error.statusCode.value())
             if (httpStatus != null) return httpStatus
@@ -94,7 +102,9 @@ class GlobalErrorWebExceptionHandler(
         super.setMessageWriters(serverCodecConfigure.writers)
     }
 
-    override fun getRoutingFunction(errorAttributes: ErrorAttributes?): RouterFunction<ServerResponse> =
+    override fun getRoutingFunction(
+        errorAttributes: ErrorAttributes?
+    ): RouterFunction<ServerResponse> =
         RouterFunctions.route(RequestPredicates.all(), ::renderErrorResponse)
 
     fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse> {

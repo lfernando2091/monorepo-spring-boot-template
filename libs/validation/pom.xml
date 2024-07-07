@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>database</artifactId>
+    <artifactId>validation</artifactId>
 
     <properties>
 
@@ -24,32 +24,12 @@
 
         <!--Kotlin Dependencies-->
         <dependency>
-            <groupId>io.projectreactor.kotlin</groupId>
-            <artifactId>reactor-kotlin-extensions</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-reactor</artifactId>
-        </dependency>
-
-        <!--MongoDB Dependencies-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!--Test modules-->
@@ -77,26 +57,6 @@
                 <version>${kotlin.version}</version>
 
                 <executions>
-<!--                    <execution>-->
-<!--                        <id>kapt</id>-->
-<!--                        <goals>-->
-<!--                            <goal>kapt</goal> &lt;!&ndash; You can skip the <goals> element-->
-<!--        if you enable extensions for the plugin &ndash;&gt;-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <sourceDirs>-->
-<!--                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>-->
-<!--                            </sourceDirs>-->
-<!--                            <annotationProcessorPaths>-->
-<!--                                &lt;!&ndash; Specify your annotation processors here &ndash;&gt;-->
-<!--                                <annotationProcessorPath>-->
-<!--                                    <groupId>com.google.dagger</groupId>-->
-<!--                                    <artifactId>dagger-compiler</artifactId>-->
-<!--                                    <version>2.9</version>-->
-<!--                                </annotationProcessorPath>-->
-<!--                            </annotationProcessorPaths>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
 
                     <execution>
                         <id>compile</id>
