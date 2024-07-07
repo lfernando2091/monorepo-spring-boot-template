@@ -12,9 +12,9 @@ class TemplateApplication
 fun main(args: Array<String>) {
 //	runApplication<TemplateApplication>(*args)
 	val dd = HomeValidationReq(
-		"hola6",
-		null,
-		"   "
+		"hola5",
+		"999",
+		"a   "
 	)
 	try {
 		validationProcessor(dd)

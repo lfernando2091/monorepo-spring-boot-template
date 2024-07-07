@@ -6,6 +6,7 @@ import com.example.validation.processors.NotBlankProcessor
 import com.example.validation.processors.NotNullProcessor
 
 @Target(
+    AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.PROPERTY,
     AnnotationTarget.FIELD
 )
@@ -19,6 +20,7 @@ annotation class NotBlank(
 )
 
 @Target(
+    AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.PROPERTY,
     AnnotationTarget.FIELD
 )
@@ -32,6 +34,7 @@ annotation class NotNull(
 )
 
 @Target(
+    AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.PROPERTY,
     AnnotationTarget.FIELD
 )

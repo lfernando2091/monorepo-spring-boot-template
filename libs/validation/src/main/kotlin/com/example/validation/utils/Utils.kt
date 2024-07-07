@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.server.bodyToFlow
 import kotlin.reflect.KClass
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlin.reflect.KParameter
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.findAnnotations
 
@@ -34,5 +35,9 @@ suspend fun <T: Any> ServerRequest.bodyValidator(
     }
 
 fun <T : Annotation> KProperty1<*, *>.findAnnotation(clazz: KClass<T>): T? =
+    findAnnotations(clazz)
+        .firstOrNull()
+
+fun <T : Annotation> KParameter.findAnnotation(clazz: KClass<T>): T? =
     findAnnotations(clazz)
         .firstOrNull()
