@@ -20,12 +20,12 @@ data class HomeReq(
 data class HomeValidationReq(
     @NotNull
     @NotBlank
-    @Length(5)
+    @Length(5, "Name must be 5 length", "name.invalid_length")
     val name: String,
-    @NotNull
-    val telephone: String?,
+    @NotNull("Telephone must not be null", "telephone.is_null")
+    val telephone: String,
     @JsonProperty("message_input")
-    @NotBlank("Required message_input", "message_input.is_empty")
+    @NotBlank("Message input must not be empty", "message_input.is_empty")
     val messageInput: String?
 )
 

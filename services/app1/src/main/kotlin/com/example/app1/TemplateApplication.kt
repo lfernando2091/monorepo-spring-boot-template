@@ -1,8 +1,8 @@
 package com.example.app1
 
 import com.example.app1.models.HomeValidationReq
-import com.example.validation.models.ValidationException
-import com.example.validation.processors.validationProcessor
+import com.example.validation.processors.base.CoreValidation
+import com.example.validation.processors.base.CoreValidationImpl
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -10,17 +10,15 @@ import org.springframework.boot.runApplication
 class TemplateApplication
 
 fun main(args: Array<String>) {
-//	runApplication<TemplateApplication>(*args)
-	val dd = HomeValidationReq(
-		"hola5",
-		"999",
-		"a   "
-	)
-	try {
-		validationProcessor(dd)
-	} catch (e: ValidationException){
-		e.errors.forEach { error ->
-			println("Validation error for ${error.fieldName}: ${error.message} (${error.errorCode})")
-		}
-	}
+	runApplication<TemplateApplication>(*args)
+//	val dd = HomeValidationReq(
+//		"hola",
+//		null,
+//		"  "
+//	)
+//	val coreValidation: CoreValidation = CoreValidationImpl()
+//	coreValidation.validation(dd)
+//	coreValidation.getErrors().forEach { error ->
+//		println("Validation error for ${error.fieldName}: ${error.message} (${error.errorCode})")
+//	}
 }

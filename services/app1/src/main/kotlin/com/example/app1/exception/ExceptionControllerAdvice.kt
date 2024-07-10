@@ -29,7 +29,7 @@ import reactor.core.publisher.Mono
 @Component
 class ExceptionControllerAdvice: DefaultErrorAttributes() {
 
-    private val log: Logger = LoggerFactory.getLogger(AppConfig::class.java)
+    private val log: Logger = LoggerFactory.getLogger(ExceptionControllerAdvice::class.java)
 
     private val MESSAGE = "message"
     private val CAUSE = "cause"
