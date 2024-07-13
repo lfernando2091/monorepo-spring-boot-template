@@ -1,9 +1,12 @@
 package com.example.validation.processors.base
 
 import com.example.validation.annotations.Length
+import com.example.validation.annotations.Max
 import com.example.validation.annotations.Min
 import com.example.validation.annotations.NotBlank
 import com.example.validation.annotations.NotNull
+import com.example.validation.annotations.Range
+import com.example.validation.annotations.Pattern
 import com.example.validation.annotations.base.Processor
 import com.example.validation.models.ValidationError
 import com.example.validation.utils.findAnnotations
@@ -30,7 +33,10 @@ class CoreValidationImpl: CoreValidation {
         NotBlank::class,
         NotNull::class,
         Length::class,
-        Min::class
+        Min::class,
+        Max::class,
+        Range::class,
+        Pattern::class
     )
     private val MAIN_ANNOTATION_PROPS = setOf(
         "message",

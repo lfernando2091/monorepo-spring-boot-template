@@ -34,3 +34,28 @@ fun defMinValidationError(
     "Wrong expected minimal size",
     "field.invalid_min_size"
 )
+
+fun defMaxValidationError(
+    propertyName: String
+) = ValidationError(
+    propertyName,
+    "Wrong expected max size",
+    "field.invalid_max_size"
+)
+
+fun defRangeValidationError(
+    propertyName: String
+) = ValidationError(
+    propertyName,
+    "Field out of ranges",
+    "field.out-of-ranges"
+)
+
+fun defRegexValidationError(
+    propertyName: String
+) = ValidationError(
+    propertyName,
+    "Field error with regex validation",
+    "field.error-with-regex-validation"
+)
+

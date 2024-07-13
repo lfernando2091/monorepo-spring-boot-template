@@ -1,7 +1,14 @@
 package com.example.validation.annotations
 
 import com.example.validation.annotations.base.Processor
-import com.example.validation.processors.*
+import com.example.validation.processors.LengthProcessor
+import com.example.validation.processors.MaxProcessor
+import com.example.validation.processors.MinProcessor
+import com.example.validation.processors.NotBlankProcessor
+import com.example.validation.processors.NotNullProcessor
+import com.example.validation.processors.RangeProcessor
+import com.example.validation.processors.PatterProcessor
+import org.intellij.lang.annotations.Language
 
 @Target(
     AnnotationTarget.VALUE_PARAMETER,
@@ -72,8 +79,8 @@ annotation class Min(
 )
 annotation class Max(
     val value: Int,
-    val message: String = "Wrong expected minimal size",
-    val errorCode: String = "field.invalid_min_size"
+    val message: String = "Wrong expected max size",
+    val errorCode: String = "field.invalid_max_size"
 )
 
 @Target(
@@ -86,17 +93,25 @@ annotation class Max(
     processedBy = [RangeProcessor::class]
 )
 annotation class Range(
-    val value: RangeDefinition,
+    val min: Int,
+    val max: Int,
     val message: String = "Field out of ranges",
     val errorCode: String = "field.out-of-ranges"
 )
 
 @Target(
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.ANNOTATION_CLASS
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FIELD
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class RangeDefinition(
-    val min: Int,
-    val max: Int
+@Processor(
+    processedBy = [PatterProcessor::class]
+)
+annotation class Pattern(
+    @Language("RegExp")
+    val value: String,
+    val options: Array<RegexOption> = [],
+    val message: String = "Field error with regex validation",
+    val errorCode: String = "field.error-with-regex-validation"
 )

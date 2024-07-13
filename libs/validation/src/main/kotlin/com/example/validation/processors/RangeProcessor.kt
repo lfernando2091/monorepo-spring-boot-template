@@ -13,9 +13,9 @@ class RangeProcessor: CustomValidator<Range, Any> {
     override fun initialize(annotation: Range) {
         this.annotation = annotation
         this.minProcessor = MinProcessor()
-        this.minProcessor.initialize(Min(this.annotation.value.min))
+        this.minProcessor.initialize(Min(annotation.min))
         this.maxProcessor = MaxProcessor()
-        this.maxProcessor.initialize(Max(this.annotation.value.max))
+        this.maxProcessor.initialize(Max(annotation.max))
     }
 
     override fun isValid(value: Any?): Boolean =
