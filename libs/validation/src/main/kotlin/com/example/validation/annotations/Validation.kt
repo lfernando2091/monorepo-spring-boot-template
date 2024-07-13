@@ -68,10 +68,35 @@ annotation class Min(
 )
 @Retention(AnnotationRetention.RUNTIME)
 @Processor(
+    processedBy = [MaxProcessor::class]
+)
+annotation class Max(
+    val value: Int,
+    val message: String = "Wrong expected minimal size",
+    val errorCode: String = "field.invalid_min_size"
+)
+
+@Target(
+    AnnotationTarget.VALUE_PARAMETER,
+    AnnotationTarget.PROPERTY,
+    AnnotationTarget.FIELD
+)
+@Retention(AnnotationRetention.RUNTIME)
+@Processor(
     processedBy = [RangeProcessor::class]
 )
 annotation class Range(
-    val value: Int,
-    val message: String = "Field must be %s of length",
-    val errorCode: String = "field.invalid_length"
+    val value: RangeDefinition,
+    val message: String = "Field out of ranges",
+    val errorCode: String = "field.out-of-ranges"
+)
+
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.ANNOTATION_CLASS
+)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RangeDefinition(
+    val min: Int,
+    val max: Int
 )
