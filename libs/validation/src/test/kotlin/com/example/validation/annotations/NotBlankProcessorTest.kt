@@ -17,15 +17,17 @@ class NotBlankProcessorTest {
     fun `errors not blank annotation`() {
         val notBlankFixture = NotBlankFixture(
             "       ",
-            "  "
+            "  ",
+            emptyList(),
+            emptyMap()
         )
         coreValidation.validation(
             notBlankFixture
         )
         val errors = coreValidation.getErrors()
         Assert.notEmpty(errors, VALIDATION_WITH_ERRORS)
-        Assert.isTrue(errors.size == 2,
-            VALIDATION_HAS_ERRORS.format(2)
+        Assert.isTrue(errors.size == 4,
+            VALIDATION_HAS_ERRORS.format(errors.size)
         )
         Assert.isTrue(
             defNotBlankValidationError(
@@ -41,13 +43,27 @@ class NotBlankProcessorTest {
             ) == errors[1],
             VALIDATION_CUSTOM_MESSAGE
         )
+        Assert.isTrue(
+            defNotBlankValidationError(
+                "valCollection"
+            ) == errors[2],
+            VALIDATION_DEFAULT_MESSAGE
+        )
+        Assert.isTrue(
+            defNotBlankValidationError(
+                "valMap"
+            ) == errors[3],
+            VALIDATION_DEFAULT_MESSAGE
+        )
     }
 
     @Test
     fun `valid not blank annotation`() {
         val notBlankFixture = NotBlankFixture(
             "abc 1  ",
-            "a   "
+            "a   ",
+            listOf("", ""),
+            mapOf("a" to "b")
         )
         coreValidation.validation(
             notBlankFixture
@@ -61,7 +77,7 @@ class NotBlankProcessorTest {
     @Test
     fun `validation not blank annotation ignore nulls`() {
         val withNullNotBlankFixture = WithNullNotBlankFixture(
-            null
+            null, null, null,  null
         )
         coreValidation.validation(
             withNullNotBlankFixture

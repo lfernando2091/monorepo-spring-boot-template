@@ -9,10 +9,23 @@ data class NotBlankFixture(
         "valStringCustom is blank",
         "property.is_blank"
     )
-    val valStringCustom: String
+    val valStringCustom: String,
+    @NotBlank
+    val valCollection: Collection<String>,
+    @NotBlank
+    val valMap: Map<String, String>,
 )
 
 data class WithNullNotBlankFixture(
     @NotBlank
-    val valString: String?
+    val valString: String?,
+    @NotBlank(
+        "valStringCustom is blank",
+        "property.is_blank"
+    )
+    val valStringCustom: String?,
+    @NotBlank
+    val valCollection: Collection<String>?,
+    @NotBlank
+    val valMap: Map<String, String>?,
 )

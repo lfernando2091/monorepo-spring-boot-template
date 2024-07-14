@@ -23,6 +23,8 @@ class MaxProcessor: CustomValidator<Max, Any> {
             is Short -> annotation.value.toShort() >= value
             is BigInteger -> annotation.value.toBigInteger() >= value
             is BigDecimal -> annotation.value.toBigDecimal() >= value
+            is Collection<*> -> annotation.value >= value.size
+            is Map<*, *> -> annotation.value >= value.size
             else -> true
         }
 
